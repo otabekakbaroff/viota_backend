@@ -3,7 +3,7 @@ exports.up = function(knex) {
     table.increments();
     table.string('username').notNullable().index().unique()
     table.string('password').notNullable()
-    table.string('chatted_last')
+    table.string('chatted_last').defaultTo('')
   })
 };
 

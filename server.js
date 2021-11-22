@@ -6,6 +6,8 @@ const express = require('express');
 
 const server = express();
 
+const restrict = require('./middleware/restrict')
+
 const users=require('./users/users_router');
 
 const messages = require('./messages/messages_router')
@@ -18,11 +20,11 @@ server.use(cors());
 
 server.use(helmet());
 
-server.use('/api/messages', messages);
+server.use('/api/messages', /*restrict,*/ messages);
 
 server.use('/api/users', users);
 
-server.use('/api/connections', connections);
+server.use('/api/connections', /*restrict,*/ connections);
 
 server.use(express.static("public"));
 
@@ -30,6 +32,7 @@ server.use(express.static("public"));
 server.get('/', (req,res)=>{
     res.json({ Message:`*** SERVER IS UP AND RUNNING ***` })
 })
+
 
 
 module.exports = server;

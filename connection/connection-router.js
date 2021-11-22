@@ -31,6 +31,9 @@ router.get('/:username/friends-list', (req,res)=>{
         console.log(error)
     })
 })
+
+
+
 // send friend requests
 router.post('/send-friend-request', (req,res)=>{
     const {from , to} = req.body

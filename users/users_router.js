@@ -19,15 +19,15 @@ function generateToken(user){
 
 router.post('/register', (req, res) => {
     const usersInfo = req.body;
-    if(usersInfo.username.length < 6 || usersInfo.password.length < 6){
-        res.json({error_message:'username, password minimum of 6 characters and name minimum of 3 characters'})
+    if(usersInfo.username.length < 5 || usersInfo.password.length < 5){
+        res.json({error_message:'username, password minimum of 6 characters'})
     }else{
         const hash=bcrypt.hashSync(usersInfo.password, 12);
         usersInfo.password=hash;
         Users.addUser(usersInfo).then(user=>{
             const token=generateToken(user);
             res.status(201).json({ 
-                user,
+                username:user.username,
                 token
             });
         }).catch(err=>{
@@ -44,8 +44,9 @@ router.post("/login", (req, res) => {
       .then(user => {
         if (user && bcrypt.compareSync(password,user.password)){
         const token=generateToken(user);
+        console.log(user)
           res.status(200).json({
-              user,
+              username:user.username,
               token
           });
         }

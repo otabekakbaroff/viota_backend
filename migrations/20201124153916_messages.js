@@ -26,8 +26,6 @@ exports.up = function(knex) {
         table
         .integer('date')
         .notNullable()
-        .unique()
-
     })
   };
   
