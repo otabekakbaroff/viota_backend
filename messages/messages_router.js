@@ -15,7 +15,7 @@ router.post("/my-messages",(req,res)=>{
             })
            
         }else{
-            res.json({error_message:'one or both users not found'})
+            res.status(404).json({error_message:'one or both users not found'})
         }
     }).catch(error=>{
         console.log(error)

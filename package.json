@@ -1,27 +1,33 @@
 {
-  "name": "back-end",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otabekakbaroff/msg_be.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/otabekakbaroff/msg_be/issues"
+  },
+  "homepage": "https://github.com/otabekakbaroff/msg_be#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "helmet": "^4.2.0",
+    "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.12",
-    "nodemon": "^2.0.6",
-    "pg": "^8.5.0",
+    "knex": "^0.95.14",
+    "nodemon": "^2.0.15",
     "postgresql": "0.0.1",
-    "socket.io": "^2.3.0",
-    "sqlite3": "^5.0.0"
+    "socket.io": "^4.4.0",
+    "sqlite3": "^5.0.2"
   }
 }
