@@ -42,5 +42,6 @@ function request_reply(id,reply) {
       .where({id})
       .update(reply)
       .then(result=>{    
+          return result
     })
 }

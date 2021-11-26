@@ -67,10 +67,9 @@ router.post('/friend-requests', (req,res)=>{
 })
 
 // accept or deny requests ( can be also used to unfriend people)
-router.put('/:id/request-reply', (req,res)=>{
-    const { id } = req.params;
+router.put('/request-reply', (req,res)=>{
     // from you to the user you accepted the request from
-    const  {from,to,status} = req.body
+    const  {id,from,to,status} = req.body
     if(status>2 || status<0){
         res.json({error:'status 2 for accepted or 1 for denial'})
     }else if(status === 2){
@@ -81,8 +80,6 @@ router.put('/:id/request-reply', (req,res)=>{
                 console.log(error)
             })
             Connections.request_reply(id, {status:[status]}).then(user=>{
-                console.log(id)
-                console.log(status)
                 res.json(user)
             })
             .catch(error=>{

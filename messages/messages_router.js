@@ -19,7 +19,7 @@ router.post("/my-messages",(req,res)=>{
         }
     }).catch(error=>{
         console.log(error)
-        res.json({error:'error'})
+        res.status(404).json({error:'user doesn\'nt exist'})
     })
 })
 
