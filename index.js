@@ -7,39 +7,34 @@ const io = require('socket.io')(app,{
     cors:'http:localhost:3000',
     methods: ["GET", "POST"]
 })
-// const Messages = require('./messages/message_model')
+const Messages = require('./messages/message_model')
 const Users = require('./users/users_model')
-// const Connections = require('./connection/connections-model');
+const Connections = require('./connection/connections-model');
 
 
 
 
 
-// let activeConnections = new Set()
-
-// let userHash_socketId = {}
+let userHash_socketId = {}
 
 
 io.on("connection", function(socket){
     console.log(`connected id: ${socket.id}`)
-    //Login
-    // socket.on('user-info', function(data){
-    //     console.log(data)
-    //     // let hash = crypto.createHash('md5').update(data).digest("hex")
-    //     activeConnections.add(socket.id)
-    //     userHash_socketId = {...userHash_socketId, [data]:socket.id}
-    //     io.to(socket.id).emit('confirm', 'successful connection...')
-    // })
-
+    // Getting user's username and combining it into username:socket.id object
+    socket.on('user-info', data=>{// data -> username
+        userHash_socketId = {...userHash_socketId, [data]:socket.id}
+        io.to(socket.id).emit('confirm', 'successful connection...')
+    })
 
     //Disconnect
-    // socket.on('disconnect', () => {
-    //     console.log(`disconnected id: ${socket.id}`)
-    //     activeConnections.delete(socket.id)
-    // });
+    socket.on('disconnect', () => {
+        console.log(`disconnected id: ${socket.id}`)
+    });
 
-    socket.on('user-search',(data) =>{
-            if(data.username && data.receiver){
+
+    // user search
+    socket.on('user-search',(data) =>{//data -> {username: username, receiver: receiverUsername}
+            if(data.username && data.receiver){//username needed to explude itself from the search
                 Users.searchUser(data).then(users =>{
                     io.to(socket.id).emit('user-search', users)
                 })
@@ -54,25 +49,25 @@ io.on("connection", function(socket){
     })
 
     //Send message
-//     socket.on('private-message', function(data){
-//         console.log(data)
-//         if(data.message && data.username && data.receiver_username && data.date ){
-//             console.log({userOne:data.username,userTwo:data.receiver_username})
-//             Connections.checkFriendship(data.username,data.receiver_username).then(user=>{
-//                 if(user.length !==0){
-//                     Messages.sendMessage({from:data.username,to:data.receiver_username,message:data.message, date:data.date}).then(messages=>{
-//                         console.log(messages)
-//                     })
-//                     .catch(error=>{
-//                             console.log(error)
-//                     })
-//                     io.to(userHash_socketId[data.receiver_username]).emit('private-message', {username:data.username, message:data.message})
-//                 }
-//             })
-//         }else{
-//             io.to(socket.id).emit('error','failed to send message')
-//     }
-//   })
+    socket.on('private-message', data=>{ // {"message": "some message here", "from": "user_one","to": "user_two", "date": 1234567}
+        console.log(data)
+        if(data.message && data.from && data.to && data.date ){//checking if all the information required are passed by the client-side
+            console.log({userOne:data.from,userTwo:data.to})
+            Connections.checkFriendship(data.from,data.to).then(user=>{// checks if sender and receiver are friends
+                if(user.length !==0){// if sender and receiver are not friends, the return will be [] which length equal to 0
+                    Messages.sendMessage({from:data.from,to:data.to,message:data.message, date:data.date}).then(messages=>{
+                        console.log(messages)
+                    })
+                    .catch(error=>{
+                            console.log(error)
+                    })
+                    io.to(userHash_socketId[data.to]).emit('private-message', {from:data.from,to:data.to,message:data.message, date:data.date})
+                }
+            })
+        }else{
+            io.to(socket.id).emit('error','failed to send message')
+    }
+  })
 })
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
