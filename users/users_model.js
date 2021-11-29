@@ -2,12 +2,21 @@ const db = require('../db/dbconfig')
 
 
 module.exports = {
+  getAllUsers,
 	findUser,
   addUser,
   searchUser,
   usersExist,
   update_user
 }
+
+
+function getAllUsers(){
+	return  db('users')
+}
+
+
+
 
 function findUser(filter){
 	return  db('users').where(filter);
