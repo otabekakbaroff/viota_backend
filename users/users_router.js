@@ -61,6 +61,18 @@ router.post("/login", (req, res) => {
 });
 
 
+router.get("/all", (req, res) => {
+    Users.getAllUsers({ username })
+      .then(user => {
+        res.json(user)
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json({error_message:'Invalid Credentials'});
+      });
+});
+
+
 router.put("/last-convo",(req,res)=>{
     let { username, chatted_last } = req.body;
     console.log(username,chatted_last)
