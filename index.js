@@ -4,7 +4,7 @@ const http = require('http');
 const port = process.env.PORT;
 const app = http.createServer(server);
 const io = require('socket.io')(app,{
-    cors:'http:localhost:3000',
+    cors:'https://viota.netlify.app',
     methods: ["GET", "POST"]
 })
 const Messages = require('./messages/message_model')
