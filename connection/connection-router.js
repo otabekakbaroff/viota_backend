@@ -33,6 +33,14 @@ router.get('/:username/friends-list', (req,res)=>{
 })
 
 
+router.post('/userExistsCheck',(req,res)=>{
+    Users.usersExist({username:[from]} ,{username:[to]}).then(user=>{
+        console.log(user)
+    }).catch(error=>{
+        console.log(error)
+    })
+})
+
 
 // send friend requests
 router.post('/send-friend-request', (req,res)=>{
