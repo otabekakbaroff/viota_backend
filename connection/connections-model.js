@@ -17,6 +17,9 @@ function friendsList(user){
     .select('connection.from as username' )
 }
 
+
+
+
 function checkFriendship(userOne,userTwo){
     return db('connection')
     .where('connection.from', userOne)
