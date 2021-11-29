@@ -35,7 +35,7 @@ router.get('/:username/friends-list', (req,res)=>{
 
 router.post('/userExistsCheck',(req,res)=>{
     const {from , to} = req.body
-    Users.usersExist({username:[from]} ,{username:[to]}).then(user=>{
+    Users.usersExist(from ,to).then(user=>{
         res.json(user)
     }).catch(error=>{
         res.json(error)
