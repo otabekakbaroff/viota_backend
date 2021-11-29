@@ -48,6 +48,7 @@ router.post('/send-friend-request', (req,res)=>{
                 console.log(error)
             })
         }else{
+            console.log(user)
             res.json({error_message:'one or both users not found'})
         }
     }).catch(error=>{
