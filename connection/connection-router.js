@@ -56,8 +56,10 @@ router.post('/userExistsCheck',(req,res)=>{
 // send friend requests
 router.post('/send-friend-request', (req,res)=>{
     const {from , to} = req.body
+    console.log(from,to)
     if(from && to){
         Connections.send_friendRequest({from:[from],to:[to]}).then(user=>{
+            console.log('success')
             res.json(user)
         })
         .catch(error=>{
@@ -65,7 +67,7 @@ router.post('/send-friend-request', (req,res)=>{
                 console.log(error)
         })
     }else{
-        console.log(user)
+        console.log(error)
         res.json({error_message:'one or both users not found'})
     }
 })
