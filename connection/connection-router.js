@@ -58,6 +58,7 @@ router.post('/send-friend-request', (req,res)=>{
     const {from , to} = req.body
     Users.usersExist({username:[from]} ,{username:[to]})
     .then(user=>{
+        console.log(user)
         if(user.length === 2){
             Connections.send_friendRequest({from:[from],to:[to]}).then(user=>{
                 res.json(user)
