@@ -22,6 +22,7 @@ function searchNoneFriends(){
     .where('connection.from', '<>', 'Otabek')
     .andWhere('connection.to', '<>', 'Otabek')
     .orWhere('connection.from', null)
+    .orWhere('connection.to', null)
     .select('users.username','connection.from','connection.to')
     // .distinct('users.username','connection.from','connection.to')
     // .distinct('users.username')
