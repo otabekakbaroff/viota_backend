@@ -73,7 +73,7 @@ router.get("/all", (req, res) => {
 });
 
 
-router.get("/search-user", (req, res) => {
+router.post("/search-user", (req, res) => {
   let body = req.body
   Users.searchUser(body)
     .then(user => {
