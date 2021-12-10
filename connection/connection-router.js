@@ -32,6 +32,16 @@ router.get('/:username/friends-list', (req,res)=>{
     })
 })
 
+router.get("/all", (req, res) => {
+    Connections.getAll()
+      .then(user => {
+        res.json(user)
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json({error_message:'Invalid Credentials'});
+      });
+});
 
 router.post('/userExistsCheck',(req,res)=>{
     const {from , to} = req.body

@@ -2,7 +2,7 @@ const db = require('../db/dbconfig')
 
 
 module.exports = {
-  getAllUsers,
+  getAll,
 	findUser,
   addUser,
   searchUser,
@@ -12,7 +12,7 @@ module.exports = {
 }
 
 
-function getAllUsers(){
+function getAll(){
 	return  db('users')
 }
 

@@ -6,9 +6,14 @@ module.exports = {
     friendRequests,
     send_friendRequest,
     request_reply,
-    checkFriendship
+    checkFriendship,
+    getAll
 }
 
+
+function getAll(){
+    return db('connection')
+}
 
 function friendsList(user){
     return db('connection')

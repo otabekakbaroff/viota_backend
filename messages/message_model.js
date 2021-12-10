@@ -3,8 +3,14 @@ const db = require('../db/dbconfig')
 
 module.exports = {
     sendMessage,
-    myMessages
+    myMessages,
+    getAll
 }
+
+function getAll(){
+  return db('messages')
+}
+
 //privateMessage
 function myMessages(sender,receiver){
   return  db('messages')

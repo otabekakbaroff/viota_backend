@@ -62,7 +62,7 @@ router.post("/login", (req, res) => {
 
 
 router.get("/all", (req, res) => {
-    Users.getAllUsers()
+    Users.getAll()
       .then(user => {
         res.json(user)
       })
