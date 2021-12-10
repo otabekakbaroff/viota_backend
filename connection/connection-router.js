@@ -59,8 +59,7 @@ router.post('/send-friend-request', (req,res)=>{
     console.log(body)
     if(body.from && body.to){
         Connections.send_friendRequest(body).then(user=>{
-            console.log('success')
-            res.json(user)
+            res.json({message:'success'})
         })
         .catch(error=>{
             res.json({error_message:"friend-request was already sent"})
