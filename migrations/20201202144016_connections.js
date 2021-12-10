@@ -5,7 +5,6 @@ exports.up = function(knex) {
 
         table
         .string("from") 
-        .unsigned() 
         .notNullable()
         .references("username")
         .inTable("users")
@@ -14,7 +13,6 @@ exports.up = function(knex) {
 
         table
         .string("to") 
-        .unsigned() 
         .notNullable()
         .references("username")
         .inTable("users")

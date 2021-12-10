@@ -7,22 +7,18 @@ exports.up = function(knex) {
 
         table
         .string("from") 
-        .unsigned() 
         .notNullable()
         .references("username")
         .inTable("users")
         .onUpdate("CASCADE") 
         .onDelete("CASCADE");
-
         table
         .string("to") 
-        .unsigned() 
         .notNullable()
         .references("username")
         .inTable("users")
         .onUpdate("CASCADE") 
         .onDelete("CASCADE");
-
         table
         .integer('date')
         .notNullable()
