@@ -7,7 +7,8 @@ module.exports = {
   addUser,
   searchUser,
   usersExist,
-  update_user
+  update_user,
+  searchNoneFriends
 }
 
 
@@ -16,6 +17,15 @@ function getAllUsers(){
 }
 
 
+function searchNoneFriends(){
+  return db('users')
+    .fullOuterJoin('connection', 'connection.from','users.username')
+    .where('connection.from', '<>', 'Otabek')
+    .andWhere('connection.to', '<>', 'Otabek')
+    .orWhere('connection.from', null)
+    .distinct('users.username','connection.from','connection.to')
+    // .distinct('users.username')
+}
 
 
 function findUser(filter){

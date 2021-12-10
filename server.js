@@ -24,7 +24,7 @@ server.use('/api/messages', /*restrict,*/ messages);
 
 server.use('/api/users', users);
 
-server.use('/api/connections', /*restrict,*/ connections);
+server.use('/api/connection', /*restrict,*/ connections);
 
 server.use(express.static("public"));
 
