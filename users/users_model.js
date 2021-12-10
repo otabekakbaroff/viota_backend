@@ -7,7 +7,6 @@ module.exports = {
   addUser,
   searchUser,
   update_user,
-  searchNoneFriends
 }
 
 
