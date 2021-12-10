@@ -5,7 +5,7 @@ const port = process.env.PORT;
 const app = http.createServer(server);
 const io = require('socket.io')(app,{
     cors:{
-        origin:'https://viota.netlify.app',
+        origin:'*', // switch to https://viota.netlify.app 
         methods: ["GET", "POST", "PUT"]
     }
 })
