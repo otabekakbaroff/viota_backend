@@ -6,7 +6,6 @@ module.exports = {
 	findUser,
   addUser,
   searchUser,
-  usersExist,
   update_user,
   searchNoneFriends
 }
@@ -30,13 +29,6 @@ function searchNoneFriends(){
 
 function findUser(filter){
 	return  db('users').where(filter);
-}
-
-function usersExist(from,to){
-  return db('users')
-  .where(from)
-  .orWhere(to)
-  
 }
 
 

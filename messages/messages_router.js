@@ -19,22 +19,13 @@ router.get("/all", (req, res) => {
 
 router.post("/my-messages",(req,res)=>{
     const {from, to} = req.body
-    Users.usersExist({username:[from]} ,{username:[to]}).then(user=>{
-        if(user.length === 2){
-            Messages.myMessages(from,to).then(message=>{
+        Messages.myMessages(from,to).then(message=>{
                 res.json(message)
-            })
-            .catch(error=>{
-                console.log(error)
-            })
-           
-        }else{
+        })
+        .catch(error=>{
             res.status(404).json({error_message:'one or both users not found'})
-        }
-    }).catch(error=>{
-        console.log(error)
-        res.status(404).json({error:'user doesn\'nt exist'})
-    })
+            console.log(error)
+        })
 })
 
 

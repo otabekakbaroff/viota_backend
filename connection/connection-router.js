@@ -43,15 +43,6 @@ router.get("/all", (req, res) => {
       });
 });
 
-router.post('/userExistsCheck',(req,res)=>{
-    const {from , to} = req.body
-    Users.usersExist(from ,to).then(user=>{
-        res.json(user)
-    }).catch(error=>{
-        res.json(error)
-    })
-})
-
 
 // send friend requests
 router.post('/send-friend-request', (req,res)=>{
@@ -71,6 +62,35 @@ router.post('/send-friend-request', (req,res)=>{
     }
 })
 
+
+// accept or deny requests ( can be also used to unfriend people)
+router.put('/request-reply', (req,res)=>{
+    // from you to the user you accepted the request from
+    const  body = req.body
+    if(body.status>2 || body.status<0){
+        res.json({error:'status 2 for accepted or 1 for denial'})
+    }else if(body.status === 2){
+        if(body.from && body.to){
+            Connections.request_reply(body).then(user=>{
+                console.log(user)
+                res.json({message:'success'})
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        }else{
+            res.json({error_message:'who are you and who are you adding? {from:you, to:someone, status: 2}'})
+        }
+    }else{
+        Connections.request_reply(body).then(user=>{
+            res.json(user)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+})
+
 // find friend requests 
 router.post('/friend-requests', (req,res)=>{
     const {username} = req.body
@@ -82,37 +102,7 @@ router.post('/friend-requests', (req,res)=>{
     })
 })
 
-// accept or deny requests ( can be also used to unfriend people)
-router.put('/request-reply', (req,res)=>{
-    // from you to the user you accepted the request from
-    const  {id,from,to,status} = req.body
-    if(status>2 || status<0){
-        res.json({error:'status 2 for accepted or 1 for denial'})
-    }else if(status === 2){
-        if(from && to){
-            Connections.send_friendRequest({from:[from],to:[to],status:[status]})
-            .catch(error=>{
-                res.json({response:'already accepted'})
-                console.log(error)
-            })
-            Connections.request_reply(id, {status:[status]}).then(user=>{
-                res.json(user)
-            })
-            .catch(error=>{
-                console.log(error)
-            })
-        }else{
-            res.json({error_message:'who are you and who are you adding? {from:you, to:someone, status: 2}'})
-        }
-    }else{
-        Connections.request_reply(id, {status:[status]}).then(user=>{
-            res.json(user)
-        })
-        .catch(error=>{
-            console.log(error)
-        })
-    }
-})
+
 
 
 

@@ -6,7 +6,6 @@ module.exports = {
     friendRequests,
     send_friendRequest,
     request_reply,
-    checkFriendship,
     getAll
 }
 
@@ -23,33 +22,31 @@ function friendsList(user){
 }
 
 
-
-
-function checkFriendship(userOne,userTwo){
-    return db('connection')
-    .where('connection.from', userOne)
-    .andWhere('connection.to',userTwo)
-    .andWhere('connection.status', 2)
-}
-
-
 function send_friendRequest(request){
     return db('connection')
     .insert(request)
     .then(id=>id);
 }
 
+
+
+function request_reply(reply) {
+    if(reply.status===2){
+        send_friendRequest({to:reply.to, from:reply.from, status:reply.status})
+    }
+    return db("connection")
+        .where('connection.from',reply.to)
+        .andWhere('connection.to',reply.from)
+        .update({from:reply.to,to:reply.from,status:reply.status})
+        .then(result=>{    
+          return result
+    })
+}
+
+
+
 function friendRequests(user){
     return db('connection')
     .where('connection.to',user)
     .andWhere('connection.status', 0)
-}
-
-function request_reply(id,reply) {
-    return db("connection")
-      .where({id})
-      .update(reply)
-      .then(result=>{    
-          return result
-    })
 }

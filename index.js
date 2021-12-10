@@ -4,12 +4,13 @@ const http = require('http');
 const port = process.env.PORT;
 const app = http.createServer(server);
 const io = require('socket.io')(app,{
-    cors:'https://viota.netlify.app',
-    methods: ["GET", "POST"]
+    cors:{
+        origin:'https://viota.netlify.app',
+        methods: ["GET", "POST", "PUT"]
+    }
 })
 const Messages = require('./messages/message_model')
 const Users = require('./users/users_model')
-const Connections = require('./connection/connections-model');
 
 
 
@@ -52,9 +53,6 @@ io.on("connection", function(socket){
     socket.on('private-message', data=>{ // {"message": "some message here", "from": "user_one","to": "user_two", "date": 1234567}
         console.log(data)
         if(data.message && data.from && data.to && data.date ){//checking if all the information required are passed by the client-side
-            console.log({userOne:data.from,userTwo:data.to})
-            Connections.checkFriendship(data.from,data.to).then(user=>{// checks if sender and receiver are friends
-                if(user.length !==0){// if sender and receiver are not friends, the return will be [] which length equal to 0
                     Messages.sendMessage({from:data.from,to:data.to,message:data.message, date:data.date}).then(messages=>{
                         console.log(messages)
                     })
@@ -62,8 +60,6 @@ io.on("connection", function(socket){
                             console.log(error)
                     })
                     io.to(userHash_socketId[data.to]).emit('private-message', {from:data.from,to:data.to,message:data.message, date:data.date})
-                }
-            })
         }else{
             io.to(socket.id).emit('error','failed to send message')
     }
