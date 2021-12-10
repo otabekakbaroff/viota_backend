@@ -16,21 +16,6 @@ function getAll(){
 }
 
 
-function searchNoneFriends(){
-  return db('users')
-    .fullOuterJoin('connection', 'connection.from','users.username')
-    .where('connection.from', '<>', 'Otabek')
-    .andWhere('connection.to', '<>', 'Otabek')
-    .andWhere('connection.from','<>', 'users.username')
-    .andWhere('connection.to','<>', 'users.username')
-    .orWhere('connection.from', null)
-    .orWhere('connection.to', null)
-    .select('users.username','connection.from','connection.to')
-    // .distinct('users.username','connection.from','connection.to')
-    // .distinct('users.username')
-}
-
-
 function findUser(filter){
 	return  db('users').where(filter);
 }

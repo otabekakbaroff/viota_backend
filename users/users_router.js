@@ -73,8 +73,9 @@ router.get("/all", (req, res) => {
 });
 
 
-router.get("/noneFriends", (req, res) => {
-  Users.searchNoneFriends()
+router.get("/search-user", (req, res) => {
+  let body = req.body
+  Users.searchUser(body)
     .then(user => {
       res.json(user)
     })
