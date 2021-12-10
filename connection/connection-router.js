@@ -56,24 +56,18 @@ router.post('/userExistsCheck',(req,res)=>{
 // send friend requests
 router.post('/send-friend-request', (req,res)=>{
     const {from , to} = req.body
-    Users.usersExist({username:[from]} ,{username:[to]})
-    .then(user=>{
-        console.log(user)
-        if(user.length === 2){
-            Connections.send_friendRequest({from:[from],to:[to]}).then(user=>{
-                res.json(user)
-            })
-            .catch(error=>{
-                res.json({error_message:"friend-request was already sent"})
+    if(from && to){
+        Connections.send_friendRequest({from:[from],to:[to]}).then(user=>{
+            res.json(user)
+        })
+        .catch(error=>{
+            res.json({error_message:"friend-request was already sent"})
                 console.log(error)
-            })
-        }else{
-            console.log(user)
-            res.json({error_message:'one or both users not found'})
-        }
-    }).catch(error=>{
-        console.log(error)
-    })
+        })
+    }else{
+        console.log(user)
+        res.json({error_message:'one or both users not found'})
+    }
 })
 
 // find friend requests 
