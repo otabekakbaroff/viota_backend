@@ -18,7 +18,13 @@ function friendsList(user){
     return db('connection')
     .where('connection.to', user)
     .andWhere('connection.status', 2)
-    .select('connection.from as username' )
+    .select('connection.from as username')
+    .unionAll(function(){
+        this.select('connection.to as username')
+        .from('connection')
+        .where('connection.from', user)
+        .andWhere('connection.status', 0) 
+    })
 }
 
 

@@ -51,10 +51,10 @@ io.on("connection", function(socket){
 
     //Send message
     socket.on('private-message', data=>{ // {"message": "some message here", "from": "user_one","to": "user_two", "date": 1234567}
-        console.log(data)
+        // console.log(data)
         if(data.message && data.from && data.to && data.date ){//checking if all the information required are passed by the client-side
                     Messages.sendMessage({from:data.from,to:data.to,message:data.message, date:data.date}).then(messages=>{
-                        console.log(messages)
+                        // console.log(messages)
                     })
                     .catch(error=>{
                             console.log(error)
@@ -64,6 +64,13 @@ io.on("connection", function(socket){
             io.to(socket.id).emit('error','failed to send message')
     }
   })
+
+  socket.on('friend-request', data=>{
+    console.log(data)
+    io.to(userHash_socketId[data.to]).emit('friend-request', {from:data.from})
+  })
+
+
 })
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
