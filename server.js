@@ -33,6 +33,6 @@ server.get('/', (req,res)=>{
     res.json({ Message:`*** SERVER IS UP AND RUNNING ***` })
 })
 
-//test commit
+
 
 module.exports = server;
