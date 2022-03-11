@@ -51,13 +51,14 @@ io.on("connection", function(socket){
 
     //Send message
     socket.on('private-message', data=>{ // {"message": "some message here", "from": "user_one","to": "user_two", "date": 1234567}
-        // console.log(data)
-        if(data.message && data.from && data.to && data.date ){//checking if all the information required are passed by the client-side
+        console.log(data)
+        if(data.message && data.from && data.to && data.date){//checking if all the information required are passed by the client-side
                     Messages.sendMessage({from:data.from,to:data.to,message:data.message, date:data.date}).then(messages=>{
-                        // console.log(messages)
+                        console.log(messages)
+                        console.log('hit')
                     })
                     .catch(error=>{
-                            console.log(error)
+                        console.log(error)
                     })
                     io.to(userHash_socketId[data.to]).emit('private-message', {from:data.from,to:data.to,message:data.message, date:data.date})
         }else{
